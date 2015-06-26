@@ -8,6 +8,7 @@ public class BasicGeneric {
 		l1.add("aaa");
 		l1.add("bbb");
 		l1.add("ccc");
+		
 		for (int i=0;i<l1.size();i++){
 			String s = l1.get(i);
 			System.out.println(s);

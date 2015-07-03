@@ -9,18 +9,21 @@ public class TT implements Runnable{
 		System.out.println("b= "+b);
 	}
 	
-	public void m2(){
+	public synchronized void m2() throws Exception {	
+		Thread.sleep(2500);
+		b=500;
 		System.out.println(b);
 	}
 	
 	public void run(){
 		try{
 			m1();
+			System.out.println(b);
 		} catch (Exception e){
 			e.printStackTrace();
 		}
 	}
-	public static void main(String[] args){
+	public static void main(String[] args) throws Exception{
 		TT tt = new TT();
 		Thread t = new Thread(tt);
 		t.start();
@@ -30,5 +33,6 @@ public class TT implements Runnable{
 			e.printStackTrace();
 		}
 		tt.m2();
+		System.out.println("Final b= "+tt.b);
 	}
 }

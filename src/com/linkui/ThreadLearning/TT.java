@@ -9,7 +9,7 @@ public class TT implements Runnable{
 		System.out.println("b= "+b);
 	}
 	
-	public synchronized void m2() throws Exception {	
+	public synchronized void m2() throws InterruptedException {	
 		Thread.sleep(2500);
 		b=500;
 		System.out.println(b);
@@ -23,16 +23,16 @@ public class TT implements Runnable{
 			e.printStackTrace();
 		}
 	}
-	public static void main(String[] args) throws Exception{
+	public static void main(String[] args){
 		TT tt = new TT();
 		Thread t = new Thread(tt);
 		t.start();
 		try{
 			Thread.sleep(1000);
+			tt.m2();
 		} catch (InterruptedException e){
 			e.printStackTrace();
 		}
-		tt.m2();
 		System.out.println("Final b= "+tt.b);
 	}
 }

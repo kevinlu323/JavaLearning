@@ -91,13 +91,50 @@ public class Test {
 		p(buf);*/
 		
 		//group
-		Pattern p = Pattern.compile("(\\d{3,5})([a-z]{2})");
+		/*Pattern p = Pattern.compile("(\\d{3,5})([a-z]{2})");
 		String s = "123aa-34345bb-234cc-00";
 		Matcher m = p.matcher(s);
 		while(m.find()){
 			p(m.group(1));
-		}
+		}*/
 		
+		// qulifiers
+		/*//Pattern p = Pattern.compile("(.{3,10})[0-9]"); //greedy: 0-10
+		//Pattern p = Pattern.compile("(.{3,10}?)[0-9]"); //reluctant: 0-5
+		Pattern p = Pattern.compile("(.{3,10}+)[0-9]"); //possessive: not match
+		String s = "aaaa5bbbb6";
+		Matcher m = p.matcher(s);
+		if(m.find()){
+			p(m.start() + "-" +m.end());
+		} else {
+			p("not match");
+		}*/
+		
+		// non-capturing groups (?=a), (?!a)
+		/*Pattern p = Pattern.compile(".{3}(?=a)");
+		String s = "444a66b";
+		Matcher m = p.matcher(s);
+		while(m.find()){
+			p(m.group());
+		}*/
+		
+		//back reference
+		/*Pattern p = Pattern.compile("(\\d(\\d))\\2");
+		String s = "122";
+		Matcher m = p.matcher(s);
+		p(m.matches());*/
+		
+		//short for flag e.g. CASE_INSENSITIVE
+		/*Pattern p = Pattern.compile("java",Pattern.CASE_INSENSITIVE);
+		p("Java".matches("(?i)(java)"));*/
+		
+		//Scope
+		p("a".matches("[a-z]"));
+		p("a".matches("[^abc]"));
+		p("A".matches("[a-zA-Z]"));
+		p("A".matches("[a-z]|[A-Z]"));
+		p("A".matches("[a-z[A-Z]]"));
+		p("R".matches("[A-Z&&[RFG]]"));
 	}
 	
 	public static void p(Object o){

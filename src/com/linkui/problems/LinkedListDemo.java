@@ -27,6 +27,8 @@ public class LinkedListDemo {
 		Node cn5 = new Node(9);
 		Node cn6 = new Node(11);
 		Node cn7 = new Node(13);
+		Node i1 = new Node(3);
+		Node i2 = new Node(1);
 		n1.next = n2;
 		n2.next = n3;
 		n3.next = n4;
@@ -40,6 +42,7 @@ public class LinkedListDemo {
 		cn5.next = cn6;
 		cn6.next = cn7;
 		cn7.next = cn3;
+		i2.next = i1;
 		Node c1 = new Node (2);
 		Node c2 = new Node (4);
 		Node c3 = new Node (6);
@@ -67,6 +70,8 @@ public class LinkedListDemo {
 		System.out.println(getLength(n1));
 		Node r1 = reverseList2(n1);
 		printList(r1);
+		Node ii = getIntersectionNode(i1,i2);
+		if(ii != null) System.out.println("Two list intesect at: " +ii.val);
 	}
 	
 	public static void printList(Node head){
@@ -277,6 +282,42 @@ public class LinkedListDemo {
 		} else {
 			return false; // one of n1 & n2 has cycle, the other one does not have.
 		}
+	}
+	
+	public static Node getIntersectionNode(Node headA, Node headB) {
+		if(headA == headB) return headA;
+		int lenA =0, lenB = 0;
+		Node tmpA = headA;
+		Node tmpB = headB;
+		while (tmpA != null){
+			lenA++;
+			tmpA = tmpA.next;
+		}
+		while (tmpB != null){
+			lenB++;
+			tmpB = tmpB.next;
+		}
+		System.out.print(lenA +":" +lenB);
+		tmpA = headA;
+		tmpB = headB;
+		if(lenA > lenB){
+			for(int i =0; i<lenA-lenB; i++){
+				tmpA = tmpA.next;
+			}
+		} 
+		else if(lenA <lenB){
+			for(int i =0; i<lenB-lenA; i++){
+				tmpB = tmpB.next;
+			}
+		}
+		while(tmpA != null){
+			if(tmpA.val == tmpB.val){
+				return tmpA;
+			}
+			tmpA = tmpA.next;
+			tmpB = tmpB.next;
+		}
+		return null;
 	}
 	
 	public static void deleteNodeFrom(Node head, Node toBeDeleted){ // With average time complexity O(1);

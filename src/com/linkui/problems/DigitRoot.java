@@ -9,7 +9,7 @@ public class DigitRoot {
 		int i1 = 2035;
 		int i2 = 38;
 		System.out.println(addDigits2(i1));
-		System.out.println(addDigits2(i2));
+		System.out.println(addDigits(i2));
 		System.out.println(addDigits2(i2));
 	}
 	
@@ -24,7 +24,6 @@ public class DigitRoot {
 				tmp = tmp + (num % 10);
 				num /= 10;
 			}
-			System.out.println(tmp);
 			if(tmp >= 10)
 				tmp = addDigits2(tmp);
 		}

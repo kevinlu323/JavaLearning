@@ -3,11 +3,6 @@ package com.linkui.problems;
 public class PowerOf2 {
 
 	public static void main(String[] args){
-		/*int i = 1;
-		for(int j = 0; j < 5; j++){
-			i<<=1;
-			System.out.println(i);
-		}*/
 		int n = 1073741825;
 		System.out.println(isPowerOfTwo(n));
 	}

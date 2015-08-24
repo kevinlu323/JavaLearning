@@ -2,7 +2,7 @@ package com.linkui.problems;
 
 public class ReverseInteger {
 	public static void main(String[] args){
-		int a = 1000000003;
+		int a = 100000003;
 		System.out.println(reverse(a));
 	}
 	

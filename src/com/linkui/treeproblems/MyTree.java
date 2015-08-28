@@ -40,6 +40,7 @@ public class MyTree {
         System.out.println("Level order Traversal: ");
         levelTraversal(r1);
         System.out.println();
+        printPathRec(r1);
         System.out.println("The 3rd level has: " + getNodeNumNth(r1, 3) + " nodes");
         System.out.println("The tree has: " + getLeafCount(r1) + " leaf nodes");
         System.out.println("r1 is balanced? "+ isBalanced(r1));
@@ -133,6 +134,27 @@ public class MyTree {
         return Math.min(minDepth(root.left), minDepth(root.right)) + 1;
     }
 	
+	public static void printPathRec(MyTreeNode root){
+		List<String> list = new ArrayList<>();
+		if (root == null) return;
+		String path = "";
+		printPathHelper(root, path, list);
+		for (int i = 0; i < list.size(); i++){
+			System.out.print(list.get(i) + " ");
+		}
+	}
+	
+	public static void printPathHelper(MyTreeNode root, String path, List<String> list){
+		if(root.left == null && root.right == null){
+			list.add(path + root.val);
+		}
+		if(root.left != null){
+			printPathHelper(root.left, path + root.val + "->", list);
+		}
+		if (root.right != null){
+			printPathHelper(root.right, path + root.val + "->", list);
+		}
+	}
 	/**
 	 * Pre-order traversal using recursive method.
 	 * @param root
@@ -183,6 +205,32 @@ public class MyTree {
 			if (tmp.right != null) q.offer(tmp.right);
 		}
 	}
+	
+	/**
+	 * Level traversal and return a List<List<Integer>>
+	 * @param root
+	 * @return
+	 */
+	public static List<List<Integer>> levelOrder(MyTreeNode root) {
+		List<List<Integer>> big = new ArrayList<>();
+        if (root == null) return big;
+        Queue<MyTreeNode> q = new LinkedList<>();
+        q.offer(root);
+        
+        while(!q.isEmpty()){
+        	int levelNum = q.size();
+        	List<Integer> small = new ArrayList<>();
+        	MyTreeNode tmp;
+        	for (int i = 0 ;i < levelNum; i++){
+        		tmp = q.poll();
+	            if (tmp.left != null) q.offer(tmp.left);
+	            if (tmp.right != null) q.offer(tmp.right);
+	            small.add(tmp.val);
+        	}
+        	big.add(small);
+        }
+        return big;
+    }
 	
 	/**
 	 * Convert a BST to a Doubly-linked list

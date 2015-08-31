@@ -13,13 +13,13 @@ public class MyTree {
 		   /
 		  7
 		         		*/  
-		MyTreeNode r1 = new MyTreeNode(1);
-        MyTreeNode r2 = new MyTreeNode(2);
-        MyTreeNode r3 = new MyTreeNode(3);
-        MyTreeNode r4 = new MyTreeNode(4);
-        MyTreeNode r5 = new MyTreeNode(5);
-        MyTreeNode r6 = new MyTreeNode(6);
-        MyTreeNode r7 = new MyTreeNode(7);
+		TreeNode r1 = new TreeNode(1);
+        TreeNode r2 = new TreeNode(2);
+        TreeNode r3 = new TreeNode(3);
+        TreeNode r4 = new TreeNode(4);
+        TreeNode r5 = new TreeNode(5);
+        TreeNode r6 = new TreeNode(6);
+        TreeNode r7 = new TreeNode(7);
         r1.left = r2;
         r1.right = r3;
         r2.left = r4;
@@ -40,11 +40,14 @@ public class MyTree {
         System.out.println("Level order Traversal: ");
         levelTraversal(r1);
         System.out.println();
+        System.out.println("All paths in tree r1:");
         printPathRec(r1);
+        System.out.println();
+        System.out.println("r1 has path sum of 8? " + hasPathSum(r1,8));
         System.out.println("The 3rd level has: " + getNodeNumNth(r1, 3) + " nodes");
         System.out.println("The tree has: " + getLeafCount(r1) + " leaf nodes");
         System.out.println("r1 is balanced? "+ isBalanced(r1));
-        MyTreeNode mirror = getCopyMirror(r1);
+        TreeNode mirror = getCopyMirror(r1);
         System.out.println("Level order Traversal of bstr1 after mirroring: ");
         levelTraversal(mirror);
         System.out.println();
@@ -60,13 +63,13 @@ public class MyTree {
 		   0        
 		 */ 
 
-         MyTreeNode bstr1 = new MyTreeNode(10);
-         MyTreeNode bstr2 = new MyTreeNode(6);
-         MyTreeNode bstr3 = new MyTreeNode(14);
-         MyTreeNode bstr4 = new MyTreeNode(4);
-         MyTreeNode bstr5 = new MyTreeNode(8);
-         MyTreeNode bstr6 = new MyTreeNode(16);
-         MyTreeNode bstr7 = new MyTreeNode(0);
+         TreeNode bstr1 = new TreeNode(10);
+         TreeNode bstr2 = new TreeNode(6);
+         TreeNode bstr3 = new TreeNode(14);
+         TreeNode bstr4 = new TreeNode(4);
+         TreeNode bstr5 = new TreeNode(8);
+         TreeNode bstr6 = new TreeNode(16);
+         TreeNode bstr7 = new TreeNode(0);
          bstr1.left = bstr2;
          bstr1.right = bstr3;
          bstr2.left = bstr4;
@@ -77,7 +80,7 @@ public class MyTree {
          System.out.println("Level order Traversal of bstr1: ");
          levelTraversal(bstr1);
          System.out.println();
-         MyTreeNode mirror2 = getCopyMirror(bstr1);
+         TreeNode mirror2 = getCopyMirror(bstr1);
          System.out.println("Level order Traversal of bstr1 after mirroring: ");
          levelTraversal(mirror2);
          System.out.println();
@@ -85,7 +88,7 @@ public class MyTree {
          System.out.println("r1 and bst are mirror? " + isMirror(r1,bstr1));
          System.out.println("bst and bstMirrot are mirror? " + isMirror(bstr1,mirror2));
          System.out.println("the LCA of bstr4 & bst5 is " + findLCA(bstr1, bstr4, bstr5).val);
-         MyTreeNode newHead = convertBST2DLL(bstr1);
+         TreeNode newHead = convertBST2DLL(bstr1);
          System.out.println("After converting the BST to DLL: ");
          while (newHead != null){
         	 System.out.print(newHead.val + " ");
@@ -102,7 +105,7 @@ public class MyTree {
 	 * @param root
 	 * @return
 	 */
-	public static int getNodeNumRec (MyTreeNode root){
+	public static int getNodeNumRec (TreeNode root){
 		if (root == null) return 0;
 		int nodeNum = 0;
 		nodeNum = getNodeNumRec(root.left) + getNodeNumRec(root.right) +1;
@@ -114,7 +117,7 @@ public class MyTree {
 	 * @param root
 	 * @return
 	 */
-	public static int getDepth(MyTreeNode root){
+	public static int getDepth(TreeNode root){
 		if (root == null) return 0;
 		return Math.max(getDepth(root.left), getDepth(root.right)) +1 ;
 	}
@@ -126,7 +129,7 @@ public class MyTree {
 	 * @param root
 	 * @return
 	 */
-	public static int minDepth(MyTreeNode root) {
+	public static int minDepth(TreeNode root) {
         if (root == null) return 0;
         else if (root.left == null && root.right == null) return 1;
         else if (root.right == null) return minDepth(root.left) + 1; //need to add 1 for root;
@@ -134,7 +137,11 @@ public class MyTree {
         return Math.min(minDepth(root.left), minDepth(root.right)) + 1;
     }
 	
-	public static void printPathRec(MyTreeNode root){
+	/**
+	 * Print out all root to leaf paths.
+	 * @param root
+	 */
+	public static void printPathRec(TreeNode root){
 		List<String> list = new ArrayList<>();
 		if (root == null) return;
 		String path = "";
@@ -144,7 +151,13 @@ public class MyTree {
 		}
 	}
 	
-	public static void printPathHelper(MyTreeNode root, String path, List<String> list){
+	/**
+	 * sub method for print paths
+	 * @param root
+	 * @param path
+	 * @param list
+	 */
+	public static void printPathHelper(TreeNode root, String path, List<String> list){
 		if(root.left == null && root.right == null){
 			list.add(path + root.val);
 		}
@@ -155,11 +168,59 @@ public class MyTree {
 			printPathHelper(root.right, path + root.val + "->", list);
 		}
 	}
+	
+	/**
+	 * Check if tree has path sum
+	 * @param root
+	 * @param sum
+	 * @return
+	 */
+	public static boolean hasPathSum(TreeNode root, int sum) {
+		if(root == null) return false; //return false when tree root is null.
+		List<Integer> sumList = new ArrayList<>();
+		hasPathSumHelper(root, 0, sumList);
+		System.out.println("Tree has path sum: ");
+		for (int i = 0; i < sumList.size(); i++){
+			System.out.print(sumList.get(i)+" ");
+		}
+		System.out.println();
+		if (sumList.contains(sum)) return true;
+		else return false;
+	}
+	
+	/**
+	 * Sub-method for hasPathSum
+	 * @param root
+	 * @param count
+	 * @param sumList
+	 */
+	public static void hasPathSumHelper(TreeNode root, int count, List<Integer> sumList){
+		if(root.left == null && root.right == null){
+			sumList.add(count + root.val);
+		}
+		if(root.left != null) hasPathSumHelper(root.left, count + root.val, sumList);
+		if(root.right != null) hasPathSumHelper(root.right, count + root.val, sumList);
+	}
+	
+	/**
+	 * Reference recursive solution for hasPathSum
+	 * @param root
+	 * @param sum
+	 * @return
+	 */
+	public static boolean hasPathSum2(TreeNode root, int sum) {
+        if(root == null) return false;
+
+        if(root.left == null && root.right == null) return sum == root.val;
+
+        return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
+    }
+	
 	/**
 	 * Pre-order traversal using recursive method.
 	 * @param root
 	 */
-	public static void preorderTraversal(MyTreeNode root){
+	public static void preorderTraversal(TreeNode root){
 		if (root == null) return;
 		System.out.print(root.val + " ");
 		preorderTraversal(root.left);
@@ -170,7 +231,7 @@ public class MyTree {
 	 * In-order traversal using recursive method
 	 * @param root
 	 */
-	public static void inorderTraversal(MyTreeNode root){
+	public static void inorderTraversal(TreeNode root){
 		if(root == null) return;
 		inorderTraversal(root.left);
 		System.out.print(root.val + " ");
@@ -181,7 +242,7 @@ public class MyTree {
 	 * Post-order traversal using recursive method
 	 * @param root
 	 */
-	public static void postorderTraversal(MyTreeNode root){
+	public static void postorderTraversal(TreeNode root){
 		if (root == null) return;
 		postorderTraversal(root.left);
 		postorderTraversal(root.right);
@@ -192,13 +253,13 @@ public class MyTree {
 	 * Level traversal using Queue (LinkedList)
 	 * @param root
 	 */
-	public static void levelTraversal(MyTreeNode root){
+	public static void levelTraversal(TreeNode root){
 		if (root == null) return;
-		Queue<MyTreeNode> q = new LinkedList<>();
+		Queue<TreeNode> q = new LinkedList<>();
 		q.offer(root);
 		
 		while(!q.isEmpty()){
-			MyTreeNode tmp = q.poll();
+			TreeNode tmp = q.poll();
 			System.out.print(tmp.val + " ");
 			
 			if (tmp.left != null) q.offer(tmp.left);
@@ -211,16 +272,16 @@ public class MyTree {
 	 * @param root
 	 * @return
 	 */
-	public static List<List<Integer>> levelOrder(MyTreeNode root) {
+	public static List<List<Integer>> levelOrder(TreeNode root) {
 		List<List<Integer>> big = new ArrayList<>();
         if (root == null) return big;
-        Queue<MyTreeNode> q = new LinkedList<>();
+        Queue<TreeNode> q = new LinkedList<>();
         q.offer(root);
         
         while(!q.isEmpty()){
         	int levelNum = q.size();
         	List<Integer> small = new ArrayList<>();
-        	MyTreeNode tmp;
+        	TreeNode tmp;
         	for (int i = 0 ;i < levelNum; i++){
         		tmp = q.poll();
 	            if (tmp.left != null) q.offer(tmp.left);
@@ -237,12 +298,12 @@ public class MyTree {
 	 * @param root of the BST
 	 * @return head of the list
 	 */
-	public static MyTreeNode convertBST2DLL(MyTreeNode root){
+	public static TreeNode convertBST2DLL(TreeNode root){
 		if (root == null) return null;
-		MyTreeNode previous = null;
-		MyTreeNode curr = root;
-		MyTreeNode head = null;
-		Stack<MyTreeNode> s = new Stack<>();
+		TreeNode previous = null;
+		TreeNode curr = root;
+		TreeNode head = null;
+		Stack<TreeNode> s = new Stack<>();
 		while (true){
 			while (curr != null){
 				s.push(curr);
@@ -270,7 +331,7 @@ public class MyTree {
 	 * @param k
 	 * @return
 	 */
-	public static int getNodeNumNth(MyTreeNode root, int k){
+	public static int getNodeNumNth(TreeNode root, int k){
 		if (root == null || k<= 0) return 0;
 		if(k == 1) return 1;
 		return getNodeNumNth(root.left, k-1) + getNodeNumNth(root.right, k-1);
@@ -281,7 +342,7 @@ public class MyTree {
 	 * @param root
 	 * @return
 	 */
-	public static int getLeafCount(MyTreeNode root){
+	public static int getLeafCount(TreeNode root){
 		if(root == null) return 0;
 		if (root.left == null && root.right == null) return 1;
 		return getLeafCount(root.left) + getLeafCount(root.right);
@@ -293,7 +354,7 @@ public class MyTree {
 	 * @param r2
 	 * @return
 	 */
-	public static boolean isSame(MyTreeNode r1, MyTreeNode r2){
+	public static boolean isSame(TreeNode r1, TreeNode r2){
 		if (r1 == null && r2 == null) return true;
 		if (r1 == null || r2 == null) return false;
 		return r1.val == r2.val && isSame(r1.left, r2.left) && isSame(r1.right, r2.right);
@@ -304,7 +365,7 @@ public class MyTree {
 	 * @param root
 	 * @return
 	 */
-	public static boolean isBalanced(MyTreeNode root){
+	public static boolean isBalanced(TreeNode root){
 		if (root == null) return true;
 		if(!isBalanced(root.left) || !isBalanced(root.right)) return false;
 		int dif = Math.abs(getDepth(root.left) - getDepth(root.right));
@@ -317,9 +378,9 @@ public class MyTree {
 	 * @param root
 	 * @return
 	 */
-	public static MyTreeNode getMirror(MyTreeNode root){
+	public static TreeNode getMirror(TreeNode root){
 		if (root == null) return null;
-		MyTreeNode tmp;
+		TreeNode tmp;
 		tmp = root.right;
 		root.right = getMirror(root.left);
 		root.left = getMirror(tmp);
@@ -332,10 +393,10 @@ public class MyTree {
 	 * @param root
 	 * @return
 	 */
-	public static MyTreeNode getCopyMirror(MyTreeNode root){
+	public static TreeNode getCopyMirror(TreeNode root){
 		if (root == null) return null;
 		
-		MyTreeNode newRoot = new MyTreeNode(root.val);
+		TreeNode newRoot = new TreeNode(root.val);
 		newRoot.left = getCopyMirror(root.right);
 		newRoot.right = getCopyMirror(root.left);
 		
@@ -349,7 +410,7 @@ public class MyTree {
 	 * @param r2
 	 * @return
 	 */
-	public static boolean isMirror(MyTreeNode r1, MyTreeNode r2){
+	public static boolean isMirror(TreeNode r1, TreeNode r2){
 		if(r1 == null && r2 == null) return true;
 		if (r1 == null || r2 == null) return false;
 		return r1.val == r2.val && isMirror(r1.left, r2.right) && isMirror (r1.right, r2.left);
@@ -362,12 +423,12 @@ public class MyTree {
 	 * @param node2
 	 * @return
 	 */
-	public static MyTreeNode findLCA(MyTreeNode root, MyTreeNode node1, MyTreeNode node2){
+	public static TreeNode findLCA(TreeNode root, TreeNode node1, TreeNode node2){
 		if (root == null || node1 == null || node2 == null)	return null;
 		if(root == node1 || root == node2) return root; //find the node;
 		
-		MyTreeNode left = findLCA(root.left, node1, node2);
-		MyTreeNode right = findLCA(root.right, node1, node2);
+		TreeNode left = findLCA(root.left, node1, node2);
+		TreeNode right = findLCA(root.right, node1, node2);
 		
 		if(left == null) return right;
 		else if(right == null) return left;
@@ -397,11 +458,11 @@ public class MyTree {
 	 * @param root
 	 * @return
 	 */
-	public static int findMaxDistance(MyTreeNode root){
+	public static int findMaxDistance(TreeNode root){
 		return findMaxDistanceSub(root).maxDistance;
 	}
 	
-	public static Result findMaxDistanceSub(MyTreeNode root){
+	public static Result findMaxDistanceSub(TreeNode root){
 		Result rest = new Result(-1,-1);
 		if(root == null) return rest;
 		
@@ -421,7 +482,7 @@ public class MyTree {
 	
 }
 
-class MyTreeNode{
+/*class MyTreeNode{
 	int val;
 	MyTreeNode left;
 	MyTreeNode right;
@@ -431,4 +492,4 @@ class MyTreeNode{
 		left = null;
 		right = null;
 	}
-}
+}*/

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+	<VALUE>
+		<!-- mysql连接设置 -->
+		<server>127.0.0.1</server>
+		<dbname>users</dbname>
+		<user>root</user>
+		<pass>pass</pass>
+		<port>3306</port>
+	</VALUE>
+</CONFIG> 

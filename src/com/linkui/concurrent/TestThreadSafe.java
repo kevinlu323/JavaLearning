@@ -23,14 +23,17 @@ class BankAccount {
 		this.balance = balance;
 	}
 
-	public synchronized void deposit(int i) {
-		balance += i;
-		try {
-			Thread.sleep(1500); // simulate time to deposit
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+	public void deposit(int i) {
+		synchronized (this) {
+			balance += i;
+
+			try {
+				Thread.sleep(1500); // simulate time to deposit
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			System.out.println("at: " + new Date().toString() + ", deposit successfully, new balance: " + balance);
 		}
-		System.out.println("at: " + new Date().toString() + ", deposit successfully, new balance: " + balance);
 	}
 
 	public synchronized int withdraw(int i) {

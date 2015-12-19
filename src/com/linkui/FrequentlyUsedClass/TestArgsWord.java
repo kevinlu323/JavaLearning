@@ -4,6 +4,10 @@ import java.util.*;
 
 public class TestArgsWord {
 	public static void main (String[] args){
+		if (args.length==0){
+			System.out.println("No parameter is entered.");
+			System.exit(0);
+		}
 		Map m = new HashMap();
 		for(int i=0;i<args.length;i++){
 			int freq = m.get(args[i])==null? 0:((Integer)m.get(args[i]));
